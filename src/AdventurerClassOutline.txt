@@ -1,0 +1,20 @@
+Class outline for adventurer
+private properties
+    name, String
+    HP, int
+    maxHP, int
+    experience, int
+    gold, double, for keeping track of silver and copper too.
+    items, ArrayList<Item>
+        ----> in turn needs a simple Class, Item: {name, String; combatBonus, int; boolean valuable;}
+
+
+    needs all the getters and setters.
+    displayItems() --
+    addItem() -- gainEquipment()
+    removeItem() -- loseEquipment()
+    getHurt() --
+    feelBetter() --
+    gainExperience()  will also contain logic to level up, by which I mean gain maxHP --
+    seeStatus() displays all the info --
+    getScore() assigns a number value to the properties, and shares it. --
