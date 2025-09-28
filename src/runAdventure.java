@@ -1,63 +1,82 @@
 import java.util.Scanner;
 
 public class runAdventure {
-    public static boolean run(String userInput, Adventurer littleJimmy){
+    public static void run(String userInput, Adventurer littleJimmy){
         String flattenedUserInput = userInput.toLowerCase();
-        Scanner scnr = new Scanner(System.in);
         switch (flattenedUserInput){
-            case "quit": {
-                System.out.println("\n    Thanks for Playing!\n    Goodbye!\n");
-                return false;
-            }
-            case "see status": {
+            case "status":
+            case "inventory":
                 littleJimmy.seeStatus();
                 break;
-            }
-            case "see money": {
-                System.out.print("\n   " + littleJimmy.getName() + " has ");
-                System.out.printf("%.2f", littleJimmy.getGold());
-                System.out.println(" gold currently\n");
+
+            case "see money":
+            case "money":
+                System.out.print("\n   " + littleJimmy.getName() + " has " + String.format("%.2f", littleJimmy.getGold()) + " gold currently\n");
                 break;
-            }
-            case "see items": {
+
+            case "see items":
+            case "items":
                 System.out.println("\n    " + littleJimmy.listEquipment() + "\n");
                 break;
-            }
-            case "shop":  {
+
+            case "shop":
+            case "buy":
+            case "buy items":
                 goShopping(littleJimmy);
                 break;
-            }
-            case "sell item": {
+
+            case "sell item":
+            case "sell":
                 goSelling(littleJimmy);
                 break;
-            }
-            case "share with friends": {
-                System.out.println("\n   How many friends do you have?");
-                int friends = Math.abs(scnr.nextInt());
-                sharingIsCaring(littleJimmy, friends);
+
+            case "share with friends":
+            case "share":
+            case "friends":
+            case "share with":
+                sharingIsCaring(littleJimmy);
                 break;
-            }
-            case "fight a monster": {
+
+            case "fight a monster":
+            case "fight":
+            case "monster":
+            case "fight monster":
                 runCombat(littleJimmy);
                 break;
-            }
-            case "heal": {
-                System.out.println(littleJimmy.getName() + " goes to a local healer, and spends 10 gp to heal 5HP\n");
-                littleJimmy.useMoney("spend", 10);
-                littleJimmy.feelBetter(5);
-                System.out.printf("%.2f", littleJimmy.getGold());
-                System.out.println(" gold remaining\n" + littleJimmy.getHealth() + " / " + littleJimmy.getMaxHealth() + " HP");
+
+            case "heal":
+            case "recover":
+                seeHealer(littleJimmy);
                 break;
-            }
+        }
+    }
+
+    public static void seeHealer(Adventurer littleJimmy){
+        double costToHeal = littleJimmy.getMaxHealth();
+        int amountToHeal = littleJimmy.getMaxHealth() / 2;
+        double randomHealMod = Math.random();
+        if (randomHealMod > 0.60){
+            amountToHeal++;
+        } else if (randomHealMod < 0.30){
+            amountToHeal--;
         }
 
-        return true;
+        if (littleJimmy.getGold() >= costToHeal) {
+            System.out.println("\n   " + littleJimmy.getName() + " goes to the local healer, and spends " + costToHeal + " gp to heal " + amountToHeal + "HP\n");
+            littleJimmy.useMoney("spend", costToHeal);
+            littleJimmy.feelBetter(amountToHeal);
+            System.out.println(String.format("%.2f", littleJimmy.getGold()) + " gold remaining\n" + littleJimmy.getHealth() + " / " + littleJimmy.getMaxHealth() + " HP");
+        } else {
+            System.out.println("\n   the local healer is asking for " + costToHeal + "gp for his services.\n   " + littleJimmy.getName() + " is too poor to see the healer\n");
+        }
+
     }
 
     public static void runCombat(Adventurer littleJimmy){
         final double GREATSUCCESS = 90.0;
-        final double SUCCESS = 45.0;
-        final double FAIL = 5.5;
+        final double SUCCESS = 50.0;
+        final double FAIL = 20.0;
+        final double MAJORFAIL = 5.5;
 
         Scanner scnr = new Scanner(System.in);
         double fightResult = 100 * Math.random();
@@ -82,55 +101,60 @@ public class runAdventure {
                 }
             }
         }
-        System.out.print("\n   You roll a ");
-        System.out.printf("%.2f", (fightResult + itemBonus));
-        System.out.println(" / 100.00");
-        if (fightResult + itemBonus >= GREATSUCCESS){
-            System.out.println("   " + littleJimmy.getName() + " Shouts \"Huzzah!!\"");
-            System.out.print("   You won the fight, and ");
-            System.out.printf("%.2f", (fightResult / 10));
-            System.out.println(" gold!");
 
-            System.out.print("   You have ");
-            System.out.printf("%.2f", littleJimmy.useMoney("gain", (fightResult / 10)));
-            System.out.println(" gold currently\n");
-        } else if (fightResult + itemBonus >= SUCCESS){
-            System.out.println("   " + littleJimmy.getName() + " Shouts \"Huzzah!!\"");
-            System.out.print("   You won the fight, and ");
-            System.out.printf("%.2f", (fightResult / 10));
-            System.out.println(" gold!");
-
-            System.out.print("   You have ");
-            System.out.printf("%.2f", littleJimmy.useMoney("gain", (fightResult / 10)));
-            System.out.println(" gold currently");
-
-            System.out.println("   But you still took " + damage + " damage");
-            System.out.println("   " + littleJimmy.getName() + " has " + littleJimmy.getHurt(damage) + " HP remaining\n");
-        } else if (fightResult + itemBonus > FAIL){
-            System.out.println("   " + littleJimmy.getName() + " Shouts \"Ouchie!!\"");
-            System.out.print("   You Lost the fight, and ");
-            System.out.printf("%.2f", (fightResult / 10));
-            System.out.println(" gold.");
-
-            System.out.print("   You have ");
-            System.out.printf("%.2f", littleJimmy.useMoney("spend", (fightResult / 10)));
-            System.out.println(" gold currently");
-
-            System.out.println("   You also took " + 2 * damage + " damage");
-            System.out.println("   " + littleJimmy.getName() + " has " + littleJimmy.getHurt(2 * damage) + " HP remaining\n");
+        double rewardResult = fightResult / 9;
+        if (fightResult  + itemBonus < 65.0){
+            rewardResult *= 0.8;
         }
-        if (fightResult + itemBonus <= FAIL || littleJimmy.getHealth() == 0){
-            System.out.println("   " + littleJimmy.getName() + " Shouts \"AUUGH!!! gurgle gurgle...\"");
-            System.out.println("   You lost the fight and Died!\n");
-            littleJimmy.getScore();
-            System.out.println("\n\n\nChoose a new Adventurer Name!");
 
-            littleJimmy.resetCharacter();
-            littleJimmy.setName(scnr.nextLine());
-
+        System.out.print("\n   You roll a " + String.format("%.2f", (fightResult + itemBonus)) + " / 100.00");
+        if (fightResult + itemBonus >= GREATSUCCESS){
+            System.out.println("   " + littleJimmy.getName() + " Shouts \"Huzzah!!\"\n   You won the fight, and "+ String.format("%.2f", (rewardResult)) + " gold!");
+            System.out.print("   You have " + String.format("%.2f", littleJimmy.useMoney("gain", (rewardResult))) + " gold currently\n");
+            littleJimmy.gainScore(2);
+        } else if (fightResult + itemBonus >= SUCCESS){
+            System.out.println("   " + littleJimmy.getName() + " Shouts \"Yay!\"\n   You won the fight, and " + String.format("%.2f", (rewardResult)) + " gold!");
+            System.out.print("   You have " + String.format("%.2f", littleJimmy.useMoney("gain", (rewardResult))) + " gold currently");
+            System.out.println("   But you still took " + damage + " damage\n   " + littleJimmy.getName() + " has " + littleJimmy.getHurt(damage) + " HP remaining\n");
+            littleJimmy.gainScore(1);
+        } else if (fightResult + itemBonus > FAIL){
+            System.out.println("   " + littleJimmy.getName() + " Shouts \"Oww!!\"\n   You Lost the fight, and " + String.format("%.2f", (rewardResult)) + " gold.");
+            System.out.print("   You have " + String.format("%.2f", littleJimmy.useMoney("spend", (rewardResult))) + " gold currently");
+            System.out.println("   You also took " + 2 * damage + " damage\n   " + littleJimmy.getName() + " has " + littleJimmy.getHurt(damage) + " HP remaining\n");
+        } else if (fightResult + itemBonus > MAJORFAIL){
+            System.out.println("   " + littleJimmy.getName() + " Shouts \"" + randomSwearWords() + "\"\n   You Lost the fight, and " + String.format("%.2f", (rewardResult)) + " gold.");
+            System.out.print("   You have " + String.format("%.2f", littleJimmy.useMoney("spend", (rewardResult))) + " gold currently");
+            System.out.println("   You also took " + 2 * damage + " damage\n   " + littleJimmy.getName() + " has " + littleJimmy.getHurt(2 * damage) + " HP remaining\n");
+        } else {
+            System.out.println("   " + littleJimmy.getName() + " Shouts \"AUUGH!!! gurgle gurgle...\"\n   You lost the fight and Died!\n");
+            characterDeath(littleJimmy);
+        }
+        if (fightResult + itemBonus <= MAJORFAIL || littleJimmy.getHealth() == 0){
+            System.out.println("   " + littleJimmy.getName() + " Shouts \"AUUGH!!! gurgle gurgle...\"\n   HP dropped to 0 and " + littleJimmy.getName() + " Died!\n");
+            characterDeath(littleJimmy);
         } else {
             littleJimmy.gainExperience((int) fightResult / 2);
         }
+    }
+
+    public static String randomSwearWords(){
+        double randomizer = Math.random() * 4;
+        if (randomizer > 3){
+            return "Son of a Biscuit!!";
+        } else if (randomizer > 2){
+            return "What a Cockatrice!!";
+        } else if (randomizer > 1){
+            return "Mother of Fudge!!";
+        }
+        return "Fracking is pollution too!!";
+    }
+
+    public static void characterDeath(Adventurer littleJimmy){
+        Scanner scnr = new Scanner(System.in);
+        littleJimmy.getScore();
+        System.out.println("\n\nChoose a new Adventurer Name!");
+        littleJimmy.resetCharacter();
+        littleJimmy.setName(scnr.nextLine());
     }
 
     public static void goShopping(Adventurer littleJimmy){
@@ -142,7 +166,7 @@ public class runAdventure {
             case "sword" -> {
                 if (littleJimmy.getGold() >= 20.0) {
                     littleJimmy.useMoney("spend", 20.0);
-                    littleJimmy.gainEquipment(new Item("Sword", 5, 10));
+                    littleJimmy.gainEquipment(new Item("Sword", 5, 5));
                 } else {
                     System.out.println(littleJimmy.getName() + " does not have enough gold.");
                 }
@@ -150,7 +174,7 @@ public class runAdventure {
             case "shield" -> {
                 if (littleJimmy.getGold() >= 40.0) {
                     littleJimmy.useMoney("spend", 40.0);
-                    littleJimmy.gainEquipment(new Item("Shield", 10, 20));
+                    littleJimmy.gainEquipment(new Item("Shield", 10, 10));
                 } else {
                     System.out.println(littleJimmy.getName() + " does not have enough gold.");
                 }
@@ -158,7 +182,7 @@ public class runAdventure {
             case "magic wand" -> {
                 if (littleJimmy.getGold() >= 60.0) {
                     littleJimmy.useMoney("spend", 60.0);
-                    littleJimmy.gainEquipment(new Item("Magic Wand", 15, 30));
+                    littleJimmy.gainEquipment(new Item("Magic Wand", 15, 15));
                 } else {
                     System.out.println(littleJimmy.getName() + " does not have enough gold.");
                 }
@@ -199,8 +223,8 @@ public class runAdventure {
         String soldItem = scnr.nextLine();
         for (Item item: littleJimmy.getEquipment()){
             if (item.name.equalsIgnoreCase(soldItem)){
-                System.out.println(littleJimmy.getName() + " sells " + item.name + " for " + (item.valuable / 2.0) + "gp.");
-                littleJimmy.useMoney("gain", (item.valuable / 2.0));
+                System.out.println(littleJimmy.getName() + " sells " + item.name + " for " + (item.value / 2.0) + "gp.");
+                littleJimmy.useMoney("gain", (item.value / 2.0));
                 littleJimmy.loseEquipment(soldItem);
                 break;
             }
@@ -208,18 +232,17 @@ public class runAdventure {
 
     }
 
-    public static void sharingIsCaring(Adventurer littleJimmy, int friends){
+    public static void sharingIsCaring(Adventurer littleJimmy){
+        Scanner scnr = new Scanner(System.in);
+        System.out.println("\n   How many friends do you have?");
+        int friends = Math.abs(scnr.nextInt());
         int personalShareOfMoney = 2;
         int totalShares = friends + personalShareOfMoney;
         double remainingGold = (littleJimmy.getGold() / (totalShares));
 
-        System.out.print("   You have ");
-        System.out.printf("%.2f", littleJimmy.getGold());
-        System.out.print("gold currently.\n   You share ");
-        System.out.printf("%.2f", remainingGold);
-        System.out.print(" of your gold with each of your friends\n\n   But you keep ");
-        System.out.printf("%.2f", (personalShareOfMoney * remainingGold));
-        System.out.println(" gold for yourself!\n");
+        System.out.print("   You have " + String.format("%.2f", littleJimmy.getGold()) + "gold currently.\n   You share " +
+            String.format("%.2f", remainingGold) + " of your gold with each of your friends\n\n   But you keep " +
+            String.format("%.2f", (personalShareOfMoney * remainingGold)) + " gold for yourself!\n");
 
         littleJimmy.gainScore((int) (remainingGold * totalShares));
         littleJimmy.setGold(personalShareOfMoney * remainingGold);

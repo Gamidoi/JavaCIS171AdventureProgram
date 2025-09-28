@@ -15,6 +15,7 @@ public class Adventurer{
         gold = 10.0;
         equipment.add(new Item("Stick", 0, 0));
         health = maxHealth = 10;
+        experience = 0;
         score = 0;
     }
     Adventurer(String givenName, double startingGold){
@@ -22,6 +23,7 @@ public class Adventurer{
         gold = startingGold;
         equipment.add(new Item("Stick", 0, 0));
         health = maxHealth = 10;
+        experience = 0;
         score = 0;
     }
     public void resetCharacter(){
@@ -30,6 +32,7 @@ public class Adventurer{
         equipment.clear();
         equipment.add(new Item("Stick", 0, 0));
         health = maxHealth = 10;
+        experience = 0;
         score = 0;
     }
 
@@ -88,7 +91,6 @@ public class Adventurer{
         }
     }
 
-
     public ArrayList<Item> getEquipment(){
         return equipment;
     }
@@ -126,7 +128,6 @@ public class Adventurer{
         }
     }
 
-
     public void seeStatus(){
         System.out.print("   " + name + "\n   " + health + " / " + maxHealth + " HP\n   ");
         System.out.printf("%.2f", gold);
@@ -140,7 +141,7 @@ public class Adventurer{
             maxHealth += 2;
             health += 2;
             experience -= requiredXP;
-            System.out.println("\n   Congrats, you leveled up\n   your max health is now " + maxHealth);
+            System.out.println("\n   Congrats, you leveled up\n   your max health is now " + maxHealth + "\n");
         }
     }
 
@@ -148,17 +149,14 @@ public class Adventurer{
         score += add;
     }
 
-
-
     public void getScore(){
         score += health;
-        score += (maxHealth * 2);
-        score += (int) gold;
+        score += (int) gold / 2;
         for (Item item: equipment){
-            if (item.valuable > 0){
-                score += item.valuable;
+            if (item.value > 0){
+                score += item.value;
             } else {
-                score -= 1;
+                score -= 2;
             }
         }
         System.out.println("   " + name + " final score is: " + score);
