@@ -7,6 +7,7 @@ public class Adventurer{
     private int maxHealth;
     private int experience;
     private ArrayList<Item> equipment = new ArrayList<Item>();
+    private int score;
 
 
     Adventurer(){
@@ -14,12 +15,14 @@ public class Adventurer{
         gold = 10.0;
         equipment.add(new Item("Stick", 0, true));
         health = maxHealth = 10;
+        score = 0;
     }
     Adventurer(String givenName, double startingGold){
         name = givenName;
         gold = startingGold;
         equipment.add(new Item("Stick", 0, true));
         health = maxHealth = 10;
+        score = 0;
     }
     public void resetCharacter(){
         name = "Boring Adventurer";
@@ -27,6 +30,7 @@ public class Adventurer{
         equipment.clear();
         equipment.add(new Item("Stick", 0, true));
         health = maxHealth = 10;
+        score = 0;
     }
 
 
@@ -51,9 +55,8 @@ public class Adventurer{
             gold -= amountOfChange;
         }
         if (gold != Math.abs(gold)){
-            String amountOverdrawn = "" + Math.ceil(Math.abs(gold));
+            score += (int) Math.floor(gold);
             gold = 0;
-            equipment.add(new Item("IOU to local merchant in the amount of " + amountOverdrawn + " GP", 0, false));
         }
         return gold;
     }
@@ -88,6 +91,13 @@ public class Adventurer{
 
     public ArrayList<Item> getEquipment(){
         return equipment;
+    }
+    public String listEquipment(){
+        String equipmentList = "";
+        for (Item eachItem : equipment){
+            equipmentList += eachItem.name + " , ";
+        }
+        return equipmentList;
     }
     public void setEquipment(ArrayList<Item> newEquipment){
         equipment = newEquipment;
@@ -136,16 +146,16 @@ public class Adventurer{
         }
     }
 
+    public void gainScore(int add){
+        score += add;
+    }
+
 
 
     public void getScore(){
-        int score = 0;
         score += health;
         score += (maxHealth * 2);
         score += (int) gold;
-        // first simplest way to score items      score += 5 * equipment.size();
-        // error here some nonsense about being final     equipment.forEach(item -> {score += 5;});
-        // hooray a for loop! :)
         for (Item item: equipment){
             if (item.valuable){
                 score += 10;
