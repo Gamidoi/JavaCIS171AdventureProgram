@@ -19,7 +19,7 @@ public class GoingOnAnAdventure {
 
         boolean keepPlaying = true;
         while (keepPlaying){
-            System.out.println("What do you do next " + littleJimmy.getName() + "?");
+            System.out.println("\n   What do you do next " + littleJimmy.getName() + "?");
             System.out.println("Options are: \nFight a Monster\t\tSee Money\nStatus\tHeal\tSee Items\nShop\tSell Item\tShare With Friends\nQuit");
             String userInput = scnr.nextLine();
             if (userInput.equalsIgnoreCase("quit")){

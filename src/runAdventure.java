@@ -5,41 +5,54 @@ public class runAdventure {
         String flattenedUserInput = userInput.toLowerCase();
         switch (flattenedUserInput){
             case "status":
+            case "statu":
+            case "stats":
+            case "stat":
             case "inventory":
                 littleJimmy.seeStatus();
                 break;
 
             case "see money":
             case "money":
+            case "see gold":
+            case "gold":
                 System.out.print("\n   " + littleJimmy.getName() + " has " + String.format("%.2f", littleJimmy.getGold()) + " gold currently\n");
                 break;
 
             case "see items":
+            case "see item":
             case "items":
-                System.out.println("\n    " + littleJimmy.listEquipment() + "\n");
+            case "item":
+                System.out.print("\n    " + littleJimmy.listEquipment() + "\n");
                 break;
 
             case "shop":
             case "buy":
             case "buy items":
+            case "buy item":
                 goShopping(littleJimmy);
                 break;
 
+            case "sell items":
             case "sell item":
             case "sell":
                 goSelling(littleJimmy);
                 break;
 
             case "share with friends":
+            case "share with friend":
             case "share":
             case "friends":
+            case "friend":
             case "share with":
                 sharingIsCaring(littleJimmy);
                 break;
 
             case "fight a monster":
             case "fight":
+            case "monsters":
             case "monster":
+            case "fight monsters":
             case "fight monster":
                 runCombat(littleJimmy);
                 break;
@@ -67,9 +80,8 @@ public class runAdventure {
             littleJimmy.feelBetter(amountToHeal);
             System.out.println(String.format("%.2f", littleJimmy.getGold()) + " gold remaining\n" + littleJimmy.getHealth() + " / " + littleJimmy.getMaxHealth() + " HP");
         } else {
-            System.out.println("\n   the local healer is asking for " + costToHeal + "gp for his services.\n   " + littleJimmy.getName() + " is too poor to see the healer\n");
+            System.out.print("\n   the local healer is asking for " + costToHeal + "gp for his services.\n   " + littleJimmy.getName() + " is too poor to see the healer\n");
         }
-
     }
 
     public static void runCombat(Adventurer littleJimmy){
@@ -81,7 +93,7 @@ public class runAdventure {
         Scanner scnr = new Scanner(System.in);
         double fightResult = 100 * Math.random();
         double itemBonus = 0;
-        int damage = 1 + ((int) (Math.random() * 3));
+        int damage = (int) Math.ceil(Math.random() * 3.0);
 
         System.out.println("Do you want to use an item? Y/n");
         String useItem = scnr.nextLine();
@@ -107,30 +119,30 @@ public class runAdventure {
             rewardResult *= 0.8;
         }
 
-        System.out.print("\n   You roll a " + String.format("%.2f", (fightResult + itemBonus)) + " / 100.00");
+        System.out.println("\n   You roll a " + String.format("%.2f", (fightResult + itemBonus)) + " / 100.00");
         if (fightResult + itemBonus >= GREATSUCCESS){
-            System.out.println("   " + littleJimmy.getName() + " Shouts \"Huzzah!!\"\n   You won the fight, and "+ String.format("%.2f", (rewardResult)) + " gold!");
+            System.out.print("   " + littleJimmy.getName() + " Shouts \"Huzzah!!\"\n   You won the fight, and "+ String.format("%.2f", (rewardResult)) + " gold!\n");
             System.out.print("   You have " + String.format("%.2f", littleJimmy.useMoney("gain", (rewardResult))) + " gold currently\n");
             littleJimmy.gainScore(2);
         } else if (fightResult + itemBonus >= SUCCESS){
-            System.out.println("   " + littleJimmy.getName() + " Shouts \"Yay!\"\n   You won the fight, and " + String.format("%.2f", (rewardResult)) + " gold!");
-            System.out.print("   You have " + String.format("%.2f", littleJimmy.useMoney("gain", (rewardResult))) + " gold currently");
-            System.out.println("   But you still took " + damage + " damage\n   " + littleJimmy.getName() + " has " + littleJimmy.getHurt(damage) + " HP remaining\n");
+            System.out.print("   " + littleJimmy.getName() + " Shouts \"Yay!\"\n   You won the fight, and " + String.format("%.2f", (rewardResult)) + " gold!\n");
+            System.out.print("   You have " + String.format("%.2f", littleJimmy.useMoney("gain", (rewardResult))) + " gold currently\n");
+            System.out.print("   But you still took " + damage + " damage\n   " + littleJimmy.getName() + " has " + littleJimmy.getHurt(damage) + " HP remaining\n");
             littleJimmy.gainScore(1);
         } else if (fightResult + itemBonus > FAIL){
-            System.out.println("   " + littleJimmy.getName() + " Shouts \"Oww!!\"\n   You Lost the fight, and " + String.format("%.2f", (rewardResult)) + " gold.");
-            System.out.print("   You have " + String.format("%.2f", littleJimmy.useMoney("spend", (rewardResult))) + " gold currently");
-            System.out.println("   You also took " + 2 * damage + " damage\n   " + littleJimmy.getName() + " has " + littleJimmy.getHurt(damage) + " HP remaining\n");
+            System.out.print("   " + littleJimmy.getName() + " Shouts \"Oww!!\"\n   You Lost the fight, and " + String.format("%.2f", (rewardResult)) + " gold.\n");
+            System.out.print("   You have " + String.format("%.2f", littleJimmy.useMoney("spend", (rewardResult))) + " gold currently\n");
+            System.out.print("   You also took " + damage + " damage\n   " + littleJimmy.getName() + " has " + littleJimmy.getHurt(damage) + " HP remaining\n");
         } else if (fightResult + itemBonus > MAJORFAIL){
-            System.out.println("   " + littleJimmy.getName() + " Shouts \"" + randomSwearWords() + "\"\n   You Lost the fight, and " + String.format("%.2f", (rewardResult)) + " gold.");
-            System.out.print("   You have " + String.format("%.2f", littleJimmy.useMoney("spend", (rewardResult))) + " gold currently");
-            System.out.println("   You also took " + 2 * damage + " damage\n   " + littleJimmy.getName() + " has " + littleJimmy.getHurt(2 * damage) + " HP remaining\n");
+            System.out.print("   " + littleJimmy.getName() + " Shouts \"" + randomSwearWords() + "\"\n   You Lost the fight, and " + String.format("%.2f", (rewardResult)) + " gold.\n");
+            System.out.print("   You have " + String.format("%.2f", littleJimmy.useMoney("spend", (rewardResult))) + " gold currently\n");
+            System.out.print("   You also took " + 2 * damage + " damage\n   " + littleJimmy.getName() + " has " + littleJimmy.getHurt(2 * damage) + " HP remaining\n");
         } else {
-            System.out.println("   " + littleJimmy.getName() + " Shouts \"AUUGH!!! gurgle gurgle...\"\n   You lost the fight and Died!\n");
+            System.out.print("   " + littleJimmy.getName() + " Shouts \"AUUGH!!! gurgle gurgle...\"\n   You lost the fight and Died!\n\n");
             characterDeath(littleJimmy);
         }
-        if (fightResult + itemBonus <= MAJORFAIL || littleJimmy.getHealth() == 0){
-            System.out.println("   " + littleJimmy.getName() + " Shouts \"AUUGH!!! gurgle gurgle...\"\n   HP dropped to 0 and " + littleJimmy.getName() + " Died!\n");
+        if (littleJimmy.getHealth() == 0){
+            System.out.print("   " + littleJimmy.getName() + " Shouts \"AUUGH!!! gurgle gurgle...\"\n   HP dropped to 0 and " + littleJimmy.getName() + " Died!\n\n");
             characterDeath(littleJimmy);
         } else {
             littleJimmy.gainExperience((int) fightResult / 2);
@@ -152,14 +164,14 @@ public class runAdventure {
     public static void characterDeath(Adventurer littleJimmy){
         Scanner scnr = new Scanner(System.in);
         littleJimmy.getScore();
-        System.out.println("\n\nChoose a new Adventurer Name!");
+        System.out.print("\n\nChoose a new Adventurer Name!\n");
         littleJimmy.resetCharacter();
         littleJimmy.setName(scnr.nextLine());
     }
 
     public static void goShopping(Adventurer littleJimmy){
         Scanner scnr = new Scanner(System.in);
-        System.out.println("\n   What item do you want?\n   'Sword' 20gp combat + 5\t'Shield' 40gp combat + 10\n   'Magic Wand' 60gp combat + 15\tTrinket 5gp useless\n   any other item you can name 10gp combat + 2");
+        System.out.print("\n   What item do you want?\n   'Sword' 20gp combat + 5\t'Shield' 40gp combat + 10\n   'Magic Wand' 60gp combat + 15\tTrinket 5gp useless\n   any other item you can name 10gp combat + 2\n");
         String desiredItem = scnr.nextLine();
         String flattendDesiredItem = desiredItem.toLowerCase();
         switch (flattendDesiredItem) {
@@ -168,7 +180,7 @@ public class runAdventure {
                     littleJimmy.useMoney("spend", 20.0);
                     littleJimmy.gainEquipment(new Item("Sword", 5, 5));
                 } else {
-                    System.out.println(littleJimmy.getName() + " does not have enough gold.");
+                    System.out.print(littleJimmy.getName() + " does not have enough gold.\n");
                 }
             }
             case "shield" -> {
@@ -176,7 +188,7 @@ public class runAdventure {
                     littleJimmy.useMoney("spend", 40.0);
                     littleJimmy.gainEquipment(new Item("Shield", 10, 10));
                 } else {
-                    System.out.println(littleJimmy.getName() + " does not have enough gold.");
+                    System.out.print(littleJimmy.getName() + " does not have enough gold.\n");
                 }
             }
             case "magic wand" -> {
@@ -184,7 +196,7 @@ public class runAdventure {
                     littleJimmy.useMoney("spend", 60.0);
                     littleJimmy.gainEquipment(new Item("Magic Wand", 15, 15));
                 } else {
-                    System.out.println(littleJimmy.getName() + " does not have enough gold.");
+                    System.out.print(littleJimmy.getName() + " does not have enough gold.\n");
                 }
             }
             case "trinket" -> {
@@ -192,7 +204,7 @@ public class runAdventure {
                     littleJimmy.useMoney("spend", 5.0);
                     littleJimmy.gainEquipment(new Item("Trinket", 15, 0));
                 } else {
-                    System.out.println(littleJimmy.getName() + " does not have enough gold.");
+                    System.out.print(littleJimmy.getName() + " does not have enough gold.\n");
                 }
             }
             default -> {
@@ -200,7 +212,7 @@ public class runAdventure {
                     littleJimmy.useMoney("spend", 10.0);
                     littleJimmy.gainEquipment(new Item(desiredItem, 2, 5));
                 } else {
-                    System.out.println(littleJimmy.getName() + " does not have enough gold.");
+                    System.out.print(littleJimmy.getName() + " does not have enough gold.\n");
                 }
             }
         }
@@ -214,7 +226,7 @@ public class runAdventure {
             }
             equipmentIndex++;
         }
-        System.out.println("]\n");
+        System.out.print("]\n");
     }
 
     public static void goSelling(Adventurer littleJimmy){
@@ -229,7 +241,6 @@ public class runAdventure {
                 break;
             }
         }
-
     }
 
     public static void sharingIsCaring(Adventurer littleJimmy){
@@ -247,5 +258,4 @@ public class runAdventure {
         littleJimmy.gainScore((int) (remainingGold * totalShares));
         littleJimmy.setGold(personalShareOfMoney * remainingGold);
     }
-
 }

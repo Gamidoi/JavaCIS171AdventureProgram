@@ -16,7 +16,7 @@ public class Adventurer{
         equipment.add(new Item("Stick", 0, 0));
         health = maxHealth = 10;
         experience = 0;
-        score = 0;
+        score = -13;
     }
     Adventurer(String givenName, double startingGold){
         name = givenName;
@@ -24,7 +24,7 @@ public class Adventurer{
         equipment.add(new Item("Stick", 0, 0));
         health = maxHealth = 10;
         experience = 0;
-        score = 0;
+        score = -13;
     }
     public void resetCharacter(){
         name = "Boring Adventurer";
@@ -33,7 +33,7 @@ public class Adventurer{
         equipment.add(new Item("Stick", 0, 0));
         health = maxHealth = 10;
         experience = 0;
-        score = 0;
+        score = -13;
     }
 
 
@@ -132,7 +132,7 @@ public class Adventurer{
         System.out.print("   " + name + "\n   " + health + " / " + maxHealth + " HP\n   ");
         System.out.printf("%.2f", gold);
         int requiredXP = maxHealth * 10;
-        System.out.println(" gold\n   " + listEquipment() + "\n   " + experience + " / " + requiredXP + " for next level\n");
+        System.out.print(" gold\n   " + listEquipment() + "\n   " + experience + " / " + requiredXP + " for next level\n");
     }
     public void gainExperience(int XP){
         experience += XP;
@@ -141,7 +141,8 @@ public class Adventurer{
             maxHealth += 2;
             health += 2;
             experience -= requiredXP;
-            System.out.println("\n   Congrats, you leveled up\n   your max health is now " + maxHealth + "\n");
+            System.out.print("\n   Congrats, " + name + " leveled up\n   max health is now " + maxHealth + "\n");
+            System.out.print("   HP: " + health + " / " + maxHealth + "\n");
         }
     }
 
@@ -159,6 +160,6 @@ public class Adventurer{
                 score -= 2;
             }
         }
-        System.out.println("   " + name + " final score is: " + score);
+        System.out.print("   " + name + " final score is: " + score + "\n");
     }
 }
