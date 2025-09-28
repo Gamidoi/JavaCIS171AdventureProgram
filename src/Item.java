@@ -1,9 +1,9 @@
 public class Item {
     public String name;
     public int combatBonus;
-    public boolean valuable;
+    public int valuable;
 
-    public Item(String newName, int bonus, boolean value){
+    public Item(String newName, int bonus, int value){
         name = newName;
         combatBonus = bonus;
         valuable = value;

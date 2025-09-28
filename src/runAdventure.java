@@ -27,6 +27,10 @@ public class runAdventure {
                 goShopping(littleJimmy);
                 break;
             }
+            case "sell item": {
+                goSelling(littleJimmy);
+                break;
+            }
             case "share with friends": {
                 System.out.println("\n   How many friends do you have?");
                 int friends = Math.abs(scnr.nextInt());
@@ -52,8 +56,8 @@ public class runAdventure {
 
     public static void runCombat(Adventurer littleJimmy){
         final double GREATSUCCESS = 90.0;
-        final double SUCCESS = 50.0;
-        final double FAIL = 5.0;
+        final double SUCCESS = 45.0;
+        final double FAIL = 5.5;
 
         Scanner scnr = new Scanner(System.in);
         double fightResult = 100 * Math.random();
@@ -125,20 +129,20 @@ public class runAdventure {
             littleJimmy.setName(scnr.nextLine());
 
         } else {
-            littleJimmy.gainExperience((int) fightResult);
+            littleJimmy.gainExperience((int) fightResult / 2);
         }
     }
 
     public static void goShopping(Adventurer littleJimmy){
         Scanner scnr = new Scanner(System.in);
-        System.out.println("\n   What item do you want?\n   'Sword' 20gp combat + 5\t'Shield' 40gp combat + 10\n   'Magic Wand' 60gp combat + 15\tany other item you can name 10gp combat + 2");
+        System.out.println("\n   What item do you want?\n   'Sword' 20gp combat + 5\t'Shield' 40gp combat + 10\n   'Magic Wand' 60gp combat + 15\tTrinket 5gp useless\n   any other item you can name 10gp combat + 2");
         String desiredItem = scnr.nextLine();
         String flattendDesiredItem = desiredItem.toLowerCase();
         switch (flattendDesiredItem) {
             case "sword" -> {
                 if (littleJimmy.getGold() >= 20.0) {
                     littleJimmy.useMoney("spend", 20.0);
-                    littleJimmy.gainEquipment(new Item("Sword", 5, true));
+                    littleJimmy.gainEquipment(new Item("Sword", 5, 10));
                 } else {
                     System.out.println(littleJimmy.getName() + " does not have enough gold.");
                 }
@@ -146,7 +150,7 @@ public class runAdventure {
             case "shield" -> {
                 if (littleJimmy.getGold() >= 40.0) {
                     littleJimmy.useMoney("spend", 40.0);
-                    littleJimmy.gainEquipment(new Item("Shield", 10, true));
+                    littleJimmy.gainEquipment(new Item("Shield", 10, 20));
                 } else {
                     System.out.println(littleJimmy.getName() + " does not have enough gold.");
                 }
@@ -154,7 +158,15 @@ public class runAdventure {
             case "magic wand" -> {
                 if (littleJimmy.getGold() >= 60.0) {
                     littleJimmy.useMoney("spend", 60.0);
-                    littleJimmy.gainEquipment(new Item("Magic Wand", 15, true));
+                    littleJimmy.gainEquipment(new Item("Magic Wand", 15, 30));
+                } else {
+                    System.out.println(littleJimmy.getName() + " does not have enough gold.");
+                }
+            }
+            case "trinket" -> {
+                if (littleJimmy.getGold() >= 5.0) {
+                    littleJimmy.useMoney("spend", 5.0);
+                    littleJimmy.gainEquipment(new Item("Trinket", 15, 0));
                 } else {
                     System.out.println(littleJimmy.getName() + " does not have enough gold.");
                 }
@@ -162,7 +174,7 @@ public class runAdventure {
             default -> {
                 if (littleJimmy.getGold() >= 10.0) {
                     littleJimmy.useMoney("spend", 10.0);
-                    littleJimmy.gainEquipment(new Item(desiredItem, 2, true));
+                    littleJimmy.gainEquipment(new Item(desiredItem, 2, 5));
                 } else {
                     System.out.println(littleJimmy.getName() + " does not have enough gold.");
                 }
@@ -179,6 +191,21 @@ public class runAdventure {
             equipmentIndex++;
         }
         System.out.println("]\n");
+    }
+
+    public static void goSelling(Adventurer littleJimmy){
+        Scanner scnr = new Scanner(System.in);
+        System.out.println("\nWhich item would you like to sell?\n    " + littleJimmy.listEquipment() + "\n");
+        String soldItem = scnr.nextLine();
+        for (Item item: littleJimmy.getEquipment()){
+            if (item.name.equalsIgnoreCase(soldItem)){
+                System.out.println(littleJimmy.getName() + " sells " + item.name + " for " + (item.valuable / 2.0) + "gp.");
+                littleJimmy.useMoney("gain", (item.valuable / 2.0));
+                littleJimmy.loseEquipment(soldItem);
+                break;
+            }
+        }
+
     }
 
     public static void sharingIsCaring(Adventurer littleJimmy, int friends){

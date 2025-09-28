@@ -16,14 +16,12 @@ public class GoingOnAnAdventure {
         boolean keepPlaying = true;
         while (keepPlaying){
             System.out.println("What do you do next " + littleJimmy.getName() + "?");
-            System.out.println("Options are: \nFight a Monster\tSee Money\tSee Status\nHeal\tSee Items\tShop\nShare With Friends\tQuit");
+            System.out.println("Options are: \nFight a Monster\tSee Money\tSee Status\nHeal\tSee Items\tShop\tSell Item\nShare With Friends\tQuit");
             String userInput = scnr.nextLine();
             keepPlaying = runAdventure.run(userInput, littleJimmy);
         }
         scnr.close();
-
     }
-
 }
 
 

@@ -13,14 +13,14 @@ public class Adventurer{
     Adventurer(){
         name = "Boring Adventurer";
         gold = 10.0;
-        equipment.add(new Item("Stick", 0, true));
+        equipment.add(new Item("Stick", 0, 0));
         health = maxHealth = 10;
         score = 0;
     }
     Adventurer(String givenName, double startingGold){
         name = givenName;
         gold = startingGold;
-        equipment.add(new Item("Stick", 0, true));
+        equipment.add(new Item("Stick", 0, 0));
         health = maxHealth = 10;
         score = 0;
     }
@@ -28,7 +28,7 @@ public class Adventurer{
         name = "Boring Adventurer";
         gold = 10.0;
         equipment.clear();
-        equipment.add(new Item("Stick", 0, true));
+        equipment.add(new Item("Stick", 0, 0));
         health = maxHealth = 10;
         score = 0;
     }
@@ -93,10 +93,17 @@ public class Adventurer{
         return equipment;
     }
     public String listEquipment(){
-        String equipmentList = "";
+        String equipmentList = "[";
+        int lastIndex = equipment.size() - 1;
+        int index = 0;
         for (Item eachItem : equipment){
-            equipmentList += eachItem.name + " , ";
+            equipmentList += eachItem.name;
+            if (index != lastIndex){
+                equipmentList += ", ";
+            };
+            index++;
         }
+        equipmentList += "]";
         return equipmentList;
     }
     public void setEquipment(ArrayList<Item> newEquipment){
@@ -105,11 +112,11 @@ public class Adventurer{
     public void gainEquipment(Item item){
         equipment.add(item);
     }
-    public ArrayList<Item> loseEquipment(String itemName){
+    public void loseEquipment(String itemName){
         int equipmentIndex = -1;
         int index = 0;
         for (Item item: equipment){
-            if (itemName.equals(item.name)){
+            if (itemName.equalsIgnoreCase(item.name)){
                 equipmentIndex = index;
             }
             index++;
@@ -117,31 +124,22 @@ public class Adventurer{
         if (equipmentIndex >= 0) {
             equipment.remove(equipmentIndex);
         }
-        return equipment;
     }
 
 
     public void seeStatus(){
         System.out.print("   " + name + "\n   " + health + " / " + maxHealth + " HP\n   ");
         System.out.printf("%.2f", gold);
-        System.out.print(" gold\n   [");
-        int equipmentIndex = 1;
-        int piecesOfEquipment = equipment.size();
-        for (Item item: equipment){
-            System.out.print(item.name);
-            if (equipmentIndex != piecesOfEquipment){
-                System.out.print(", ");
-            }
-            equipmentIndex++;
-        }
-        System.out.println("]\n   " + experience + " / 1000 for next level\n");
+        int requiredXP = maxHealth * 10;
+        System.out.println(" gold\n   " + listEquipment() + "\n   " + experience + " / " + requiredXP + " for next level\n");
     }
     public void gainExperience(int XP){
         experience += XP;
-        if (experience >= 1000){
-            maxHealth += 10;
-            health += 10;
-            experience -= 1000;
+        int requiredXP = maxHealth * 10;
+        if (experience >= requiredXP){
+            maxHealth += 2;
+            health += 2;
+            experience -= requiredXP;
             System.out.println("\n   Congrats, you leveled up\n   your max health is now " + maxHealth);
         }
     }
@@ -157,10 +155,10 @@ public class Adventurer{
         score += (maxHealth * 2);
         score += (int) gold;
         for (Item item: equipment){
-            if (item.valuable){
-                score += 10;
+            if (item.valuable > 0){
+                score += item.valuable;
             } else {
-                score -= 10;
+                score -= 1;
             }
         }
         System.out.println("   " + name + " final score is: " + score);
