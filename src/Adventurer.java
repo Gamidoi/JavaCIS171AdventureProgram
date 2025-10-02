@@ -134,6 +134,9 @@ public class Adventurer{
         int requiredXP = maxHealth * 10;
         System.out.print(" gold\n   " + listEquipment() + "\n   " + experience + " / " + requiredXP + " for next level\n");
     }
+    public int getExperience(){
+        return experience;
+    }
     public void gainExperience(int XP){
         experience += XP;
         int requiredXP = maxHealth * 10;

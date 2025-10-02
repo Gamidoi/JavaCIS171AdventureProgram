@@ -16,6 +16,7 @@ public class GoingOnAnAdventure {
 
         String name = scnr.nextLine();
         Adventurer littleJimmy = new Adventurer(name, 10);
+        runAdventure adventure = new runAdventure();
 
         boolean keepPlaying = true;
         while (keepPlaying){
@@ -25,7 +26,7 @@ public class GoingOnAnAdventure {
             if (userInput.equalsIgnoreCase("quit")){
                 keepPlaying = false;
             } else {
-                runAdventure.run(userInput, littleJimmy);
+                adventure.run(userInput, littleJimmy);
             }
         }
         System.out.println("\n    Thanks for Playing!\n    Goodbye!\n");

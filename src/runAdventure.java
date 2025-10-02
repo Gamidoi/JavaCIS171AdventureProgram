@@ -1,7 +1,8 @@
 import java.util.Scanner;
 
 public class runAdventure {
-    public static void run(String userInput, Adventurer littleJimmy){
+    Scanner scnr = new Scanner(System.in);
+    public void run(String userInput, Adventurer littleJimmy){
         String flattenedUserInput = userInput.toLowerCase();
         switch (flattenedUserInput){
             case "status":
@@ -64,7 +65,7 @@ public class runAdventure {
         }
     }
 
-    public static void seeHealer(Adventurer littleJimmy){
+    public void seeHealer(Adventurer littleJimmy){
         double costToHeal = littleJimmy.getMaxHealth();
         int amountToHeal = littleJimmy.getMaxHealth() / 2;
         double randomHealMod = Math.random();
@@ -75,36 +76,35 @@ public class runAdventure {
         }
 
         if (littleJimmy.getGold() >= costToHeal) {
-            System.out.println("\n   " + littleJimmy.getName() + " goes to the local healer, and spends " + costToHeal + " gp to heal " + amountToHeal + "HP\n");
+            System.out.print("\n   " + littleJimmy.getName() + " goes to the local healer, and spends " + costToHeal + " gp to heal " + amountToHeal + "HP\n\n");
             littleJimmy.useMoney("spend", costToHeal);
             littleJimmy.feelBetter(amountToHeal);
-            System.out.println(String.format("%.2f", littleJimmy.getGold()) + " gold remaining\n" + littleJimmy.getHealth() + " / " + littleJimmy.getMaxHealth() + " HP");
+            System.out.print(String.format("%.2f", littleJimmy.getGold()) + " gold remaining\n" + littleJimmy.getHealth() + " / " + littleJimmy.getMaxHealth() + " HP\n");
         } else {
             System.out.print("\n   the local healer is asking for " + costToHeal + "gp for his services.\n   " + littleJimmy.getName() + " is too poor to see the healer\n");
         }
     }
 
-    public static void runCombat(Adventurer littleJimmy){
+    public void runCombat(Adventurer littleJimmy){
         final double GREATSUCCESS = 90.0;
         final double SUCCESS = 50.0;
         final double FAIL = 20.0;
         final double MAJORFAIL = 5.5;
 
-        Scanner scnr = new Scanner(System.in);
         double fightResult = 100 * Math.random();
         double itemBonus = 0;
         int damage = (int) Math.ceil(Math.random() * 3.0);
 
-        System.out.println("Do you want to use an item? Y/n");
+        System.out.print("Do you want to use an item? Y/n\n");
         String useItem = scnr.nextLine();
         if (useItem.contains("Y") || useItem.contains("y")){
-            System.out.println("available items are:");
+            System.out.print("available items are:\n");
             for (Item item: littleJimmy.getEquipment()){
                 if (item.combatBonus > 0){
                     System.out.println(item.name);
                 }
             }
-            System.out.println("Which item will you use?");
+            System.out.print("Which item will you use?\n");
             useItem = scnr.nextLine();
             useItem = useItem.toLowerCase();
             for (Item item : littleJimmy.getEquipment()){
@@ -149,7 +149,7 @@ public class runAdventure {
         }
     }
 
-    public static String randomSwearWords(){
+    public String randomSwearWords(){
         double randomizer = Math.random() * 4;
         if (randomizer > 3){
             return "Son of a Biscuit!!";
@@ -161,16 +161,14 @@ public class runAdventure {
         return "Fracking is pollution too!!";
     }
 
-    public static void characterDeath(Adventurer littleJimmy){
-        Scanner scnr = new Scanner(System.in);
+    public void characterDeath(Adventurer littleJimmy){
         littleJimmy.getScore();
         System.out.print("\n\nChoose a new Adventurer Name!\n");
         littleJimmy.resetCharacter();
         littleJimmy.setName(scnr.nextLine());
     }
 
-    public static void goShopping(Adventurer littleJimmy){
-        Scanner scnr = new Scanner(System.in);
+    public void goShopping(Adventurer littleJimmy){
         System.out.print("\n   What item do you want?\n   'Sword' 20gp combat + 5\t'Shield' 40gp combat + 10\n   'Magic Wand' 60gp combat + 15\tTrinket 5gp useless\n   any other item you can name 10gp combat + 2\n");
         String desiredItem = scnr.nextLine();
         String flattendDesiredItem = desiredItem.toLowerCase();
@@ -229,8 +227,7 @@ public class runAdventure {
         System.out.print("]\n");
     }
 
-    public static void goSelling(Adventurer littleJimmy){
-        Scanner scnr = new Scanner(System.in);
+    public void goSelling(Adventurer littleJimmy){
         System.out.println("\nWhich item would you like to sell?\n    " + littleJimmy.listEquipment() + "\n");
         String soldItem = scnr.nextLine();
         for (Item item: littleJimmy.getEquipment()){
@@ -243,8 +240,7 @@ public class runAdventure {
         }
     }
 
-    public static void sharingIsCaring(Adventurer littleJimmy){
-        Scanner scnr = new Scanner(System.in);
+    public void sharingIsCaring(Adventurer littleJimmy){
         System.out.println("\n   How many friends do you have?");
         int friends = Math.abs(scnr.nextInt());
         int personalShareOfMoney = 2;
