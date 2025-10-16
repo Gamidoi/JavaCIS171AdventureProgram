@@ -2,6 +2,7 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertNotSame;
 
 public class runAdventureTesting {
     Adventurer Jimmy = new Adventurer();
@@ -68,5 +69,20 @@ public class runAdventureTesting {
         assertEquals(16, Jimmy.getMaxHealth());
         assertEquals(12, Jimmy.getHealth());
         assertEquals(30, Jimmy.getExperience());
+    }
+
+    @Test
+    public void testingResetCharacter(){
+        Jimmy.setName("Jimmy");
+        Jimmy.setHealth(15);
+        Jimmy.setMaxHealth(20);
+        Jimmy.gainExperience(20);
+
+        Jimmy.resetCharacter();
+
+        assertEquals("Boring Adventurer", Jimmy.getName());
+        assertEquals(10, Jimmy.getMaxHealth());
+        assertEquals(10, Jimmy.getHealth());
+        assertEquals(0, Jimmy.getExperience());
     }
 }
