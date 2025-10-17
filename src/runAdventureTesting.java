@@ -1,8 +1,10 @@
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertNotSame;
 
 public class runAdventureTesting {
     Adventurer Jimmy = new Adventurer();
@@ -78,11 +80,85 @@ public class runAdventureTesting {
         Jimmy.setMaxHealth(20);
         Jimmy.gainExperience(20);
 
+
+        assertEquals("Jimmy", Jimmy.getName());
+        assertEquals(20, Jimmy.getMaxHealth());
+        assertEquals(15, Jimmy.getHealth());
+        assertEquals(20, Jimmy.getExperience());
+
         Jimmy.resetCharacter();
 
         assertEquals("Boring Adventurer", Jimmy.getName());
         assertEquals(10, Jimmy.getMaxHealth());
         assertEquals(10, Jimmy.getHealth());
         assertEquals(0, Jimmy.getExperience());
+    }
+
+    @Test
+    public void testingFight(){
+        InputStream original = System.in;
+        String data = "n\nn\nn\nn\nn\nSkelliemon\nn\nMarcus\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+
+        runAdventure run = new runAdventure();
+        Jimmy.setRandom((x)->{return 0.91;});
+        run.runCombat(Jimmy);
+
+        assertEquals("Boring Adventurer", Jimmy.getName());
+        assertEquals(10, Jimmy.getMaxHealth());
+        assertEquals(10, Jimmy.getHealth());
+        assertEquals(45, Jimmy.getExperience());
+        assertEquals(20.11, Jimmy.getGold(), 0.005);
+
+        Jimmy.setRandom((x)->{return 0.75;});
+        run.runCombat(Jimmy);
+
+        assertEquals("Boring Adventurer", Jimmy.getName());
+        assertEquals(10, Jimmy.getMaxHealth());
+        assertEquals(7, Jimmy.getHealth());
+        assertEquals(82, Jimmy.getExperience());
+        assertEquals(28.44, Jimmy.getGold(), 0.005);
+
+        Jimmy.setHealth(10);
+        Jimmy.setRandom((x)->{return 0.48;});
+        run.runCombat(Jimmy);
+
+        assertEquals("Boring Adventurer", Jimmy.getName());
+        assertEquals(12, Jimmy.getMaxHealth());
+        assertEquals(10, Jimmy.getHealth());
+        assertEquals(6, Jimmy.getExperience());
+        assertEquals(24.17, Jimmy.getGold(), 0.01);
+
+        Jimmy.setHealth(12);
+        Jimmy.setRandom((x)->{return 0.19;});
+        run.runCombat(Jimmy);
+
+        assertEquals("Boring Adventurer", Jimmy.getName());
+        assertEquals(12, Jimmy.getMaxHealth());
+        assertEquals(10, Jimmy.getHealth());
+        assertEquals(15, Jimmy.getExperience());
+        assertEquals(22.48, Jimmy.getGold(), 0.01);
+
+        Jimmy.setHealth(12);
+        Jimmy.setRandom((x)->{return 0.04;});
+        run.runCombat(Jimmy);
+
+        assertEquals("Skelliemon", Jimmy.getName());
+        assertEquals(10, Jimmy.getMaxHealth());
+        assertEquals(10, Jimmy.getHealth());
+        assertEquals(0, Jimmy.getExperience());
+        assertEquals(10.00, Jimmy.getGold(), 0.005);
+
+        Jimmy.setHealth(1);
+        Jimmy.setRandom((x)->{return 0.10;});
+        run.runCombat(Jimmy);
+
+        assertEquals("Marcus", Jimmy.getName());
+        assertEquals(10, Jimmy.getMaxHealth());
+        assertEquals(10, Jimmy.getHealth());
+        assertEquals(0, Jimmy.getExperience());
+        assertEquals(10.00, Jimmy.getGold(), 0.005);
+
+        System.setIn(original);
     }
 }

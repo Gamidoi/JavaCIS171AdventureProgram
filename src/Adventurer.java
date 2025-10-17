@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.function.Function;
 
 public class Adventurer{
     private String name;
@@ -8,6 +9,7 @@ public class Adventurer{
     private int experience;
     private ArrayList<Item> equipment = new ArrayList<Item>();
     private int score;
+    private Function random;
 
 
     Adventurer(){
@@ -17,6 +19,7 @@ public class Adventurer{
         health = maxHealth = 10;
         experience = 0;
         score = -13;
+        random = (x)->{return Math.random();};
     }
     Adventurer(String givenName, double startingGold){
         name = givenName;
@@ -25,6 +28,7 @@ public class Adventurer{
         health = maxHealth = 10;
         experience = 0;
         score = -13;
+        random = (x)->{return Math.random();};
     }
     public void resetCharacter(){
         name = "Boring Adventurer";
@@ -128,32 +132,37 @@ public class Adventurer{
         }
     }
 
-    public void seeStatus(){
-        System.out.print("   " + name + "\n   " + health + " / " + maxHealth + " HP\n   ");
-        System.out.printf("%.2f", gold);
+    public String seeStatus(){
+        String output = "";
+        output += "   " + name + "\n   " + health + " / " + maxHealth + " HP\n   ";
+        output += String.format("%.2f", gold);
         int requiredXP = maxHealth * 10;
-        System.out.print(" gold\n   " + listEquipment() + "\n   " + experience + " / " + requiredXP + " for next level\n");
+        output += " gold\n   " + listEquipment() + "\n   " + experience + " / " + requiredXP + " for next level\n";
+        return output;
     }
     public int getExperience(){
         return experience;
     }
-    public void gainExperience(int XP){
+    public String gainExperience(int XP){
+        String output = "";
         experience += XP;
         int requiredXP = maxHealth * 10;
         if (experience >= requiredXP){
             maxHealth += 2;
             health += 2;
             experience -= requiredXP;
-            System.out.print("\n   Congrats, " + name + " leveled up\n   max health is now " + maxHealth + "\n");
-            System.out.print("   HP: " + health + " / " + maxHealth + "\n");
+            output = "\n   Congrats, " + name + " leveled up\n   max health is now " + maxHealth + "\n";
+            output += "   HP: " + health + " / " + maxHealth + "\n";
         }
+        return output;
     }
 
     public void gainScore(int add){
         score += add;
     }
 
-    public void getScore(){
+    public String getScore(){
+        String output = "";
         score += health;
         score += (int) gold / 2;
         for (Item item: equipment){
@@ -163,6 +172,14 @@ public class Adventurer{
                 score -= 2;
             }
         }
-        System.out.print("   " + name + " final score is: " + score + "\n");
+        output = "   " + name + " final score is: " + score + "\n";
+        return output;
+    }
+
+    public void setRandom(Function newFunction){
+        random = newFunction;
+    }
+    public double getRandom(){
+        return (double) random.apply(null);
     }
 }

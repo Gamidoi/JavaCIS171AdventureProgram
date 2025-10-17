@@ -10,7 +10,7 @@ public class runAdventure {
             case "stats":
             case "stat":
             case "inventory":
-                littleJimmy.seeStatus();
+                System.out.print(littleJimmy.seeStatus());
                 break;
 
             case "see money":
@@ -68,7 +68,7 @@ public class runAdventure {
     public void seeHealer(Adventurer littleJimmy){
         double costToHeal = littleJimmy.getMaxHealth();
         int amountToHeal = littleJimmy.getMaxHealth() / 2;
-        double randomHealMod = Math.random();
+        double randomHealMod = littleJimmy.getRandom();
         if (randomHealMod > 0.60){
             amountToHeal++;
         } else if (randomHealMod < 0.30){
@@ -91,9 +91,9 @@ public class runAdventure {
         final double FAIL = 20.0;
         final double MAJORFAIL = 5.5;
 
-        double fightResult = 100 * Math.random();
+        double fightResult = 100 * littleJimmy.getRandom();
         double itemBonus = 0;
-        int damage = (int) Math.ceil(Math.random() * 3.0);
+        int damage = (int) Math.ceil(littleJimmy.getRandom() * 3.0);
 
         System.out.print("Do you want to use an item? Y/n\n");
         String useItem = scnr.nextLine();
@@ -144,8 +144,11 @@ public class runAdventure {
         if (littleJimmy.getHealth() == 0){
             System.out.print("   " + littleJimmy.getName() + " Shouts \"AUUGH!!! gurgle gurgle...\"\n   HP dropped to 0 and " + littleJimmy.getName() + " Died!\n\n");
             characterDeath(littleJimmy);
-        } else {
-            littleJimmy.gainExperience((int) fightResult / 2);
+        } else if (fightResult > MAJORFAIL){
+            String levelUpMessage = littleJimmy.gainExperience((int) fightResult / 2);
+            if (!levelUpMessage.isEmpty()){
+                System.out.print(levelUpMessage);
+            }
         }
     }
 
@@ -162,7 +165,7 @@ public class runAdventure {
     }
 
     public void characterDeath(Adventurer littleJimmy){
-        littleJimmy.getScore();
+        System.out.print(littleJimmy.getScore());
         System.out.print("\n\nChoose a new Adventurer Name!\n");
         littleJimmy.resetCharacter();
         littleJimmy.setName(scnr.nextLine());
