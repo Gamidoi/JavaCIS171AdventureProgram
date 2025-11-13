@@ -96,6 +96,13 @@ public class runAdventureTesting {
 
     @Test
     public void testingFight(){
+        // Belinda Patton:
+        // After talking with some friends, about how to test random results when they make such a big
+        // impact on the output, I came up with the solution to wrap Math.random in a lambda within a
+        // property of the Adventurer class, so that I could replace it with ()->{return 0.45} when I
+        // wanted to test specific values. I also needed to set System.in to read a string, I read at
+        // w3schools.com, and stackoverflow.com, a few possible solutions, and implemented what you
+        // see below.
         InputStream original = System.in;
         String data = "n\nn\nn\nn\nn\nSkelliemon\nn\nMarcus\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
