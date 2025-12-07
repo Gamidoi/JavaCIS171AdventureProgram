@@ -19,5 +19,4 @@ public class GameGUI {
         game.add(new MenuPanel());
         game.setVisible(true);
     }
-
 }

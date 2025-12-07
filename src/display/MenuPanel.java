@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class MenuPanel extends JPanel {
     int BUTTONS_LAYER = 100;
-    int BACKGROUND_LAYER = 150;
+    int BACKGROUND_LAYER = 50;
     int TEXT_LAYER = 0;
 
     JLayeredPane menu = new JLayeredPane();
@@ -23,22 +23,22 @@ public class MenuPanel extends JPanel {
     runAdventure runAdventure = new runAdventure();
     String currentSubmitNeeds = "name";
 
-    JLabel outputLine1 = new JLabel("Start Your Adventure!111111111111111111111111111111");
-    JLabel outputLine2 = new JLabel("Start Your Adventure!2");
-    JLabel outputLine3 = new JLabel("Start Your Adventure!3");
-    JLabel outputLine4 = new JLabel("Start Your Adventure!4");
-    JLabel outputLine5 = new JLabel("Start Your Adventure!5");
-    JLabel outputLine6 = new JLabel("Start Your Adventure!6");
-    JLabel outputLine7 = new JLabel("Start Your Adventure!7");
-    JLabel outputLine8 = new JLabel("Start Your Adventure!8");
-    JLabel outputLine9 = new JLabel("Start Your Adventure!9");
-    JLabel outputLine10 = new JLabel("Start Your Adventure!10");
-    JLabel outputLine11 = new JLabel("Start Your Adventure!11");
-    JLabel outputLine12 = new JLabel("Start Your Adventure!12");
-    JLabel outputLine13 = new JLabel("Start Your Adventure!13");
-    JLabel outputLine14 = new JLabel("Start Your Adventure!14");
-    JLabel outputLine15 = new JLabel("Start Your Adventure!15");
-    JLabel outputLine16 = new JLabel("Start Your Adventure!16");
+    JLabel outputLine1 = new JLabel("Start Your Adventure!");
+    JLabel outputLine2 = new JLabel("");
+    JLabel outputLine3 = new JLabel("");
+    JLabel outputLine4 = new JLabel("");
+    JLabel outputLine5 = new JLabel("");
+    JLabel outputLine6 = new JLabel("");
+    JLabel outputLine7 = new JLabel("");
+    JLabel outputLine8 = new JLabel("");
+    JLabel outputLine9 = new JLabel("");
+    JLabel outputLine10 = new JLabel("");
+    JLabel outputLine11 = new JLabel("");
+    JLabel outputLine12 = new JLabel("");
+    JLabel outputLine13 = new JLabel("");
+    JLabel outputLine14 = new JLabel("");
+    JLabel outputLine15 = new JLabel("");
+    JLabel outputLine16 = new JLabel("");
     ArrayList<JLabel> outputLines = new ArrayList<>();
 
     JLabel basicStats1 = new JLabel();
@@ -50,22 +50,22 @@ public class MenuPanel extends JPanel {
     JLabel equipmentLine1 = new JLabel("Items (combat bonus): ");
     JLabel equipmentLine2 = new JLabel("Sample text");
 
-    JButton fight = new JButton("Fight a Monster");
-    JButton tavern = new JButton("Visit with Friends");
-    JButton shop = new JButton("Go Shopping");
-    JButton sell = new JButton("Sell Items");
-    JButton heal = new JButton("Visit the Healer");
-    JButton quit = new JButton("Quit");
+    JButton fightButton = new JButton("Fight a Monster");
+    JButton tavernButton = new JButton("Visit with Friends");
+    JButton shopButton = new JButton("Go Shopping");
+    JButton sellButton = new JButton("Sell Items");
+    JButton healButton = new JButton("Visit the Healer");
+    JButton quitButton = new JButton("Quit");
 
     JTextField userInputField = new JTextField(60);
     JLabel userInputDirections = new JLabel("Please enter your hero's name:");
-    JButton submit = new JButton("Submit");
-    JButton tryAgain = new JButton("Try Again!");
+    JButton submitButton = new JButton("Submit");
+    JButton tryAgainButton = new JButton("Try Again!");
     String lastUsedWeapon = "";
 
     JLabel deathImage = new JLabel();
-    JLabel menuPicture = new JLabel();
-    JLabel greyedOutMenu = new JLabel();
+    JLabel menuBackgroundPicture = new JLabel();
+    JLabel menuBackgroundWithGreyedButtons = new JLabel();
 
 
     public MenuPanel(){
@@ -73,15 +73,15 @@ public class MenuPanel extends JPanel {
         menu.setPreferredSize(new Dimension(1000, 632));
         try{
             BufferedImage backgroundImage = ImageIO.read(new File("src/gameLayoutDesignClean.png"));
-            menuPicture = new JLabel(new ImageIcon(backgroundImage));
-            menuPicture.setBounds(0, 0, 1000, 632);
-            menu.add(menuPicture, BACKGROUND_LAYER);
+            menuBackgroundPicture = new JLabel(new ImageIcon(backgroundImage));
+            menuBackgroundPicture.setBounds(0, 0, 1000, 632);
+            menu.add(menuBackgroundPicture, BACKGROUND_LAYER);
 
             BufferedImage backgroundGreyedImage = ImageIO.read(new File("src/gameLayoutDesignGreyedButtons.png"));
-            greyedOutMenu.setIcon(new ImageIcon(backgroundGreyedImage));
-            greyedOutMenu.setBounds(0, 0, 1000, 632);
-            greyedOutMenu.setVisible(true);
-            menu.add(greyedOutMenu, TEXT_LAYER);
+            menuBackgroundWithGreyedButtons.setIcon(new ImageIcon(backgroundGreyedImage));
+            menuBackgroundWithGreyedButtons.setBounds(0, 0, 1000, 632);
+            menuBackgroundWithGreyedButtons.setVisible(true);
+            menu.add(menuBackgroundWithGreyedButtons, TEXT_LAYER);
 
             BufferedImage deathPicture = ImageIO.read(new File("src/deadAdventurer.png"));
             deathImage.setIcon(new ImageIcon(deathPicture));
@@ -153,65 +153,65 @@ public class MenuPanel extends JPanel {
     }
 
     private void setUpAllButtons(){
-        fight.addActionListener(new fightButton());
-        tavern.addActionListener(new tavernButton());
-        shop.addActionListener(new shopButton());
-        sell.addActionListener(new sellButton());
-        heal.addActionListener(new healButton());
-        quit.addActionListener(new quitButton());
-        submit.addActionListener(new submitButton());
-        userInputField.addActionListener(new submitButton());
-        tryAgain.addActionListener(new tryAgainButton());
+        fightButton.addActionListener(new fightButtonListener());
+        tavernButton.addActionListener(new tavernButtonListener());
+        shopButton.addActionListener(new shopButtonListener());
+        sellButton.addActionListener(new sellButtonListener());
+        healButton.addActionListener(new healButtonListener());
+        quitButton.addActionListener(new quitButtonListener());
+        submitButton.addActionListener(new submitButtonListener());
+        userInputField.addActionListener(new submitButtonListener());
+        tryAgainButton.addActionListener(new tryAgainButtonListener());
 
-        fight.setBounds(15, 32, 160, 45);
-        tavern.setBounds(310, 103, 175, 62);
-        shop.setBounds(108, 390, 172, 57);
-        sell.setBounds(170, 460, 135, 50);
-        heal.setBounds(460, 477, 155, 48);
-        quit.setBounds(12, 572, 120, 35);
-        submit.setBounds(770, 260, 80, 25);
+        fightButton.setBounds(15, 32, 160, 45);
+        tavernButton.setBounds(310, 103, 175, 62);
+        shopButton.setBounds(108, 390, 172, 57);
+        sellButton.setBounds(170, 460, 135, 50);
+        healButton.setBounds(460, 477, 155, 48);
+        quitButton.setBounds(12, 572, 120, 35);
+        submitButton.setBounds(770, 260, 80, 25);
         userInputField.setBounds(680, 225, 270, 35);
         userInputDirections.setBounds(680, 209, 270, 16);
-        tryAgain.setBounds(790, 80, 90, 30);
+        tryAgainButton.setBounds(790, 80, 90, 30);
 
-        fight.setContentAreaFilled(false);
-        tavern.setContentAreaFilled(false);
-        shop.setContentAreaFilled(false);
-        sell.setContentAreaFilled(false);
-        heal.setContentAreaFilled(false);
-        quit.setContentAreaFilled(false);
+        fightButton.setContentAreaFilled(false);
+        tavernButton.setContentAreaFilled(false);
+        shopButton.setContentAreaFilled(false);
+        sellButton.setContentAreaFilled(false);
+        healButton.setContentAreaFilled(false);
+        quitButton.setContentAreaFilled(false);
 
-        submit.setVisible(true);
+        submitButton.setVisible(true);
         userInputField.setVisible(true);
-        fight.setVisible(false);
-        tavern.setVisible(false);
-        shop.setVisible(false);
-        sell.setVisible(false);
-        heal.setVisible(false);
-        tryAgain.setVisible(false);
+        fightButton.setVisible(false);
+        tavernButton.setVisible(false);
+        shopButton.setVisible(false);
+        sellButton.setVisible(false);
+        healButton.setVisible(false);
+        tryAgainButton.setVisible(false);
 
-        menu.add(fight, BUTTONS_LAYER);
-        menu.add(tavern, BUTTONS_LAYER);
-        menu.add(shop, BUTTONS_LAYER);
-        menu.add(sell, BUTTONS_LAYER);
-        menu.add(heal, BUTTONS_LAYER);
-        menu.add(quit, BUTTONS_LAYER);
-        menu.add(submit, TEXT_LAYER);
+        menu.add(fightButton, BUTTONS_LAYER);
+        menu.add(tavernButton, BUTTONS_LAYER);
+        menu.add(shopButton, BUTTONS_LAYER);
+        menu.add(sellButton, BUTTONS_LAYER);
+        menu.add(healButton, BUTTONS_LAYER);
+        menu.add(quitButton, BUTTONS_LAYER);
+        menu.add(submitButton, TEXT_LAYER);
         menu.add(userInputField, TEXT_LAYER);
         menu.add(userInputDirections, TEXT_LAYER);
-        menu.add(tryAgain, TEXT_LAYER);
+        menu.add(tryAgainButton, TEXT_LAYER);
     }
 
-    class fightButton implements ActionListener {
+    class fightButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event){
             userInputDirections.setText("Which item would you like to use?");
             currentSubmitNeeds = "weapon";
             userInputField.setText(lastUsedWeapon);
-            demandUserInput(); // leads to parseWeapon
+            demandUserInput(); // leads to fight()
         }
     }
-    private void parseWeapon(){
+    private void fight(){
         String declaredWeapon = lastUsedWeapon = userInputField.getText();
         int WeaponBonus = 0;
         for (Item weapon : littleJimmy.getEquipment()){
@@ -221,11 +221,12 @@ public class MenuPanel extends JPanel {
         }
         updateOutputLines(runAdventure.runCombat(littleJimmy, WeaponBonus));
         for (JLabel line : outputLines){
+            // text "Choose a new Adventurer Name!" only appears when a character has died.
             if (line.getText().equals("Choose a new Adventurer Name!")){
                 currentSubmitNeeds = "name";
                 userInputDirections.setText("Please enter your hero's name:");
                 lastUsedWeapon = "";
-                tryAgain.setVisible(true);
+                tryAgainButton.setVisible(true);
                 deathImage.setVisible(!deathImage.isVisible());
                 break;
             }
@@ -233,15 +234,15 @@ public class MenuPanel extends JPanel {
         updateAllBasicStats(littleJimmy.getStatus());
         equipmentLine2.setText(littleJimmy.listEquipment());
     }
-    class tryAgainButton implements ActionListener {
+    class tryAgainButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event){
-            tryAgain.setVisible(false);
+            tryAgainButton.setVisible(false);
             deathImage.setVisible(!deathImage.isVisible());
             demandUserInput();
         }
     }
-    class tavernButton implements ActionListener {
+    class tavernButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event){
             updateOutputLines(new ArrayList<>());
@@ -261,7 +262,7 @@ public class MenuPanel extends JPanel {
         updateOutputLines(runAdventure.sharingIsCaring(littleJimmy, friends));
         updateAllBasicStats(littleJimmy.getStatus());
     }
-    class shopButton implements ActionListener {
+    class shopButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event){
             updateOutputLines(runAdventure.displayShoppingItems());
@@ -276,11 +277,10 @@ public class MenuPanel extends JPanel {
         updateAllBasicStats(littleJimmy.getStatus());
         equipmentLine2.setText(littleJimmy.listEquipment());
     }
-    class sellButton implements ActionListener {
+    class sellButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event){
-            ArrayList<String> blankOutput = new ArrayList<>();
-            updateOutputLines(blankOutput);
+            updateOutputLines(new ArrayList<>());
             currentSubmitNeeds = "sell";
             userInputDirections.setText("Which Item do you want to sell?");
             demandUserInput(); // leads to sellItem()
@@ -292,28 +292,28 @@ public class MenuPanel extends JPanel {
         updateAllBasicStats(littleJimmy.getStatus());
         equipmentLine2.setText(littleJimmy.listEquipment());
     }
-    class healButton implements ActionListener {
+    class healButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event){
             updateOutputLines(runAdventure.seeHealer(littleJimmy));
             updateAllBasicStats(littleJimmy.getStatus());
-            tryAgain.setVisible(false);
+            tryAgainButton.setVisible(false);
         }
     }
-    static class quitButton implements ActionListener {
+    static class quitButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event){
             System.exit(0);
         }
     }
-    class submitButton implements ActionListener {
+    class submitButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event){
             if (currentSubmitNeeds.equals("name")){
                 retrieveName();
             }
             if (currentSubmitNeeds.equals("weapon")){
-                parseWeapon();
+                fight();
             }
             if (currentSubmitNeeds.equals("shop")){
                 buyItem();
@@ -325,7 +325,7 @@ public class MenuPanel extends JPanel {
                 shareMoney();
             }
             userInputField.setText("");
-            submit.setVisible(false);
+            submitButton.setVisible(false);
             userInputDirections.setVisible(false);
             userInputField.setVisible(false);
             setAllButtonsVisible();
@@ -333,24 +333,24 @@ public class MenuPanel extends JPanel {
     }
 
     private void setAllButtonsVisible(){
-        fight.setVisible(true);
-        tavern.setVisible(true);
-        shop.setVisible(true);
-        sell.setVisible(true);
-        heal.setVisible(true);
-        greyedOutMenu.setVisible(false);
+        fightButton.setVisible(true);
+        tavernButton.setVisible(true);
+        shopButton.setVisible(true);
+        sellButton.setVisible(true);
+        healButton.setVisible(true);
+        menuBackgroundWithGreyedButtons.setVisible(false);
     }
     private void demandUserInput(){
-        fight.setVisible(false);
-        tavern.setVisible(false);
-        shop.setVisible(false);
-        sell.setVisible(false);
-        heal.setVisible(false);
-        submit.setVisible(true);
+        fightButton.setVisible(false);
+        tavernButton.setVisible(false);
+        shopButton.setVisible(false);
+        sellButton.setVisible(false);
+        healButton.setVisible(false);
+        submitButton.setVisible(true);
         userInputDirections.setVisible(true);
         userInputField.setVisible(true);
-        tryAgain.setVisible(false);
-        greyedOutMenu.setVisible(true);
+        tryAgainButton.setVisible(false);
+        menuBackgroundWithGreyedButtons.setVisible(true);
     }
 
     private void retrieveName(){
