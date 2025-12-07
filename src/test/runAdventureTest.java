@@ -4,13 +4,10 @@ import logic.runAdventure;
 import model.Adventurer;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
-public class runAdventureTesting {
+public class runAdventureTest {
     Adventurer Jimmy = new Adventurer();
     runAdventure adventure = new runAdventure();
 
@@ -23,12 +20,6 @@ public class runAdventureTesting {
     @Test
     public void healMethodTest(){
         Jimmy.setGold(500);
-        // Belinda Patton:
-        // the following two for loops are checking to make sure that the health gained is in the
-        // range of random numbers that might be assigned based on the current maxHealth property.
-        // I choose to run a large sample rather than use a designated seed, because I think it is
-        // a more accurate test. Rather than use a seed I know will pass, I am letting Math.random()
-        // find more possible test cases.
         for (int i = 0; i < 50; i++) {
             Jimmy.setHealth(1);
             adventure.seeHealer(Jimmy);
@@ -92,7 +83,7 @@ public class runAdventureTesting {
 
         Jimmy.resetCharacter();
 
-        assertEquals("Boring model.Adventurer", Jimmy.getName());
+        assertEquals("Boring Adventurer", Jimmy.getName());
         assertEquals(10, Jimmy.getMaxHealth());
         assertEquals(10, Jimmy.getHealth());
         assertEquals(0, Jimmy.getExperience());
@@ -100,76 +91,66 @@ public class runAdventureTesting {
 
     @Test
     public void testingFight(){
-        // Belinda Patton:
-        // After talking with some friends, about how to test random results when they make such a big
-        // impact on the output, I came up with the solution to wrap Math.random in a lambda within a
-        // property of the model.Adventurer class, so that I could replace it with ()->{return 0.45} when I
-        // wanted to test specific values. I also needed to set System.in to read a string, I read at
-        // w3schools.com, and stackoverflow.com, a few possible solutions, and implemented what you
-        // see below.
-        InputStream original = System.in;
-        String data = "n\nn\nn\nn\nn\nSkelliemon\nn\nMarcus\n";
-        System.setIn(new ByteArrayInputStream(data.getBytes()));
 
         runAdventure run = new runAdventure();
-        Jimmy.setRandom((x)->{return 0.91;});
-        run.runCombat(Jimmy);
+        Jimmy.setRandom((x)-> 0.91);
+        run.runCombat(Jimmy, 0);
 
-        assertEquals("Boring model.Adventurer", Jimmy.getName());
+        assertEquals("Boring Adventurer", Jimmy.getName());
         assertEquals(10, Jimmy.getMaxHealth());
         assertEquals(10, Jimmy.getHealth());
         assertEquals(45, Jimmy.getExperience());
         assertEquals(20.11, Jimmy.getGold(), 0.005);
 
-        Jimmy.setRandom((x)->{return 0.75;});
-        run.runCombat(Jimmy);
+        Jimmy.setRandom((x)-> 0.75);
+        run.runCombat(Jimmy, 0);
 
-        assertEquals("Boring model.Adventurer", Jimmy.getName());
+        assertEquals("Boring Adventurer", Jimmy.getName());
         assertEquals(10, Jimmy.getMaxHealth());
         assertEquals(7, Jimmy.getHealth());
         assertEquals(82, Jimmy.getExperience());
         assertEquals(28.44, Jimmy.getGold(), 0.005);
 
         Jimmy.setHealth(10);
-        Jimmy.setRandom((x)->{return 0.48;});
-        run.runCombat(Jimmy);
+        Jimmy.setRandom((x)-> 0.48);
+        run.runCombat(Jimmy, 0);
 
-        assertEquals("Boring model.Adventurer", Jimmy.getName());
+        assertEquals("Boring Adventurer", Jimmy.getName());
         assertEquals(12, Jimmy.getMaxHealth());
         assertEquals(10, Jimmy.getHealth());
         assertEquals(6, Jimmy.getExperience());
         assertEquals(24.17, Jimmy.getGold(), 0.01);
 
         Jimmy.setHealth(12);
-        Jimmy.setRandom((x)->{return 0.19;});
-        run.runCombat(Jimmy);
+        Jimmy.setRandom((x)-> 0.19);
+        run.runCombat(Jimmy, 0);
 
-        assertEquals("Boring model.Adventurer", Jimmy.getName());
+        assertEquals("Boring Adventurer", Jimmy.getName());
         assertEquals(12, Jimmy.getMaxHealth());
         assertEquals(10, Jimmy.getHealth());
         assertEquals(15, Jimmy.getExperience());
         assertEquals(22.48, Jimmy.getGold(), 0.01);
 
+        Jimmy.setName("Skellimon");
         Jimmy.setHealth(12);
-        Jimmy.setRandom((x)->{return 0.04;});
-        run.runCombat(Jimmy);
+        Jimmy.setRandom((x)-> 0.04);
+        assertEquals("Skellimon", Jimmy.getName());
+        run.runCombat(Jimmy, 0);
 
-        assertEquals("Skelliemon", Jimmy.getName());
+        assertEquals("Boring Adventurer", Jimmy.getName());
         assertEquals(10, Jimmy.getMaxHealth());
         assertEquals(10, Jimmy.getHealth());
         assertEquals(0, Jimmy.getExperience());
         assertEquals(10.00, Jimmy.getGold(), 0.005);
 
         Jimmy.setHealth(1);
-        Jimmy.setRandom((x)->{return 0.10;});
-        run.runCombat(Jimmy);
+        Jimmy.setRandom((x)-> 0.10);
+        run.runCombat(Jimmy, 0);
 
-        assertEquals("Marcus", Jimmy.getName());
         assertEquals(10, Jimmy.getMaxHealth());
         assertEquals(10, Jimmy.getHealth());
         assertEquals(0, Jimmy.getExperience());
         assertEquals(10.00, Jimmy.getGold(), 0.005);
 
-        System.setIn(original);
     }
 }

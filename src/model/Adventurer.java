@@ -9,37 +9,31 @@ public class Adventurer{
     private int health;
     private int maxHealth;
     private int experience;
-    private ArrayList<Item> equipment = new ArrayList<Item>();
+    private ArrayList<Item> equipment = new ArrayList<>();
     private int score;
+    private int monstersSlain;
     private Function random;
 
 
     public Adventurer(){
-        name = "Boring model.Adventurer";
+        name = "Boring Adventurer";
         gold = 10.0;
         equipment.add(new Item("Stick", 0, 0));
         health = maxHealth = 10;
         experience = 0;
         score = -13;
-        random = (x)->{return Math.random();};
-    }
-    public Adventurer(String givenName, double startingGold){
-        name = givenName;
-        gold = startingGold;
-        equipment.add(new Item("Stick", 0, 0));
-        health = maxHealth = 10;
-        experience = 0;
-        score = -13;
-        random = (x)->{return Math.random();};
+        random = (x)-> Math.random();
+        monstersSlain = 0;
     }
     public void resetCharacter(){
-        name = "Boring model.Adventurer";
+        name = "Boring Adventurer";
         gold = 10.0;
         equipment.clear();
         equipment.add(new Item("Stick", 0, 0));
         health = maxHealth = 10;
         experience = 0;
         score = -13;
+        monstersSlain = 0;
     }
 
 
@@ -101,18 +95,20 @@ public class Adventurer{
         return equipment;
     }
     public String listEquipment(){
-        String equipmentList = "[";
+        StringBuilder equipmentList = new StringBuilder();
         int lastIndex = equipment.size() - 1;
         int index = 0;
         for (Item eachItem : equipment){
-            equipmentList += eachItem.name;
+            equipmentList.append(eachItem.name);
+            equipmentList.append("(");
+            equipmentList.append(eachItem.combatBonus);
+            equipmentList.append(")");
             if (index != lastIndex){
-                equipmentList += ", ";
-            };
+                equipmentList.append(", ");
+            }
             index++;
         }
-        equipmentList += "]";
-        return equipmentList;
+        return equipmentList.toString();
     }
     public void setEquipment(ArrayList<Item> newEquipment){
         equipment = newEquipment;
@@ -134,27 +130,21 @@ public class Adventurer{
         }
     }
 
-    public String seeStatus(){
-        String output = "";
-        output += "   " + name + "\n   " + health + " / " + maxHealth + " HP\n   ";
-        output += String.format("%.2f", gold);
-        int requiredXP = maxHealth * 10;
-        output += " gold\n   " + listEquipment() + "\n   " + experience + " / " + requiredXP + " for next level\n";
-        return output;
-    }
     public int getExperience(){
         return experience;
     }
-    public String gainExperience(int XP){
-        String output = "";
+    public ArrayList<String> gainExperience(int XP){
+        ArrayList<String> output = new ArrayList<>();
         experience += XP;
         int requiredXP = maxHealth * 10;
         if (experience >= requiredXP){
             maxHealth += 2;
             health += 2;
             experience -= requiredXP;
-            output = "\n   Congrats, " + name + " leveled up\n   max health is now " + maxHealth + "\n";
-            output += "   HP: " + health + " / " + maxHealth + "\n";
+            output.add("");
+            output.add( "Congrats, " + name + " leveled up");
+            output.add("   max health is now " + maxHealth);
+            output.add("   HP: " + health + " / " + maxHealth);
         }
         return output;
     }
@@ -163,10 +153,12 @@ public class Adventurer{
         score += add;
     }
 
-    public String getScore(){
-        String output = "";
+    public ArrayList<String> getScore(){
+        ArrayList<String> output = new ArrayList<>();
         score += health;
+        score += ((maxHealth / 2) - 5);
         score += (int) gold / 2;
+        score += monstersSlain * 2;
         for (Item item: equipment){
             if (item.value > 0){
                 score += item.value;
@@ -174,7 +166,8 @@ public class Adventurer{
                 score -= 2;
             }
         }
-        output = "   " + name + " final score is: " + score + "\n";
+        output.add(name + " final score is: " + score);
+        output.add(name + " slayed " + monstersSlain + " monsters.");
         return output;
     }
 
@@ -183,5 +176,24 @@ public class Adventurer{
     }
     public double getRandom(){
         return (double) random.apply(null);
+    }
+
+    public void setMonstersSlain(int numMonsters){
+        monstersSlain = numMonsters;
+    }
+    public void slayMonster(){
+        monstersSlain++;
+    }
+    public int getMonstersSlain(){
+        return monstersSlain;
+    }
+
+    public ArrayList<String> getStatus(){
+        ArrayList<String> output = new ArrayList<>();
+        output.add("Name: " + name);
+        output.add("HP: " + health + " / " + maxHealth);
+        output.add("Gold: " + String.format("%.2f", gold));
+        output.add("Monsters Slain: " + monstersSlain);
+        return output;
     }
 }
