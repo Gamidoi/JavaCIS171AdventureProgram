@@ -1,12 +1,11 @@
-/**
+package main; /*
  * Sam Hapke sphapke@dmacc.edu
  * CIS171 11027
  * 9/27/2025
- *
- * As an aside, I have been using w3schools as a reference. Mostly to look up string or arrayList methods.
- * But it's a great resource. So here is its reference.
- *
  */
+import logic.runAdventure;
+import model.Adventurer;
+
 import java.util.Scanner;
 
 public class GoingOnAnAdventure {

@@ -1,3 +1,7 @@
+package test;
+
+import logic.runAdventure;
+import model.Adventurer;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -88,7 +92,7 @@ public class runAdventureTesting {
 
         Jimmy.resetCharacter();
 
-        assertEquals("Boring Adventurer", Jimmy.getName());
+        assertEquals("Boring model.Adventurer", Jimmy.getName());
         assertEquals(10, Jimmy.getMaxHealth());
         assertEquals(10, Jimmy.getHealth());
         assertEquals(0, Jimmy.getExperience());
@@ -99,7 +103,7 @@ public class runAdventureTesting {
         // Belinda Patton:
         // After talking with some friends, about how to test random results when they make such a big
         // impact on the output, I came up with the solution to wrap Math.random in a lambda within a
-        // property of the Adventurer class, so that I could replace it with ()->{return 0.45} when I
+        // property of the model.Adventurer class, so that I could replace it with ()->{return 0.45} when I
         // wanted to test specific values. I also needed to set System.in to read a string, I read at
         // w3schools.com, and stackoverflow.com, a few possible solutions, and implemented what you
         // see below.
@@ -111,7 +115,7 @@ public class runAdventureTesting {
         Jimmy.setRandom((x)->{return 0.91;});
         run.runCombat(Jimmy);
 
-        assertEquals("Boring Adventurer", Jimmy.getName());
+        assertEquals("Boring model.Adventurer", Jimmy.getName());
         assertEquals(10, Jimmy.getMaxHealth());
         assertEquals(10, Jimmy.getHealth());
         assertEquals(45, Jimmy.getExperience());
@@ -120,7 +124,7 @@ public class runAdventureTesting {
         Jimmy.setRandom((x)->{return 0.75;});
         run.runCombat(Jimmy);
 
-        assertEquals("Boring Adventurer", Jimmy.getName());
+        assertEquals("Boring model.Adventurer", Jimmy.getName());
         assertEquals(10, Jimmy.getMaxHealth());
         assertEquals(7, Jimmy.getHealth());
         assertEquals(82, Jimmy.getExperience());
@@ -130,7 +134,7 @@ public class runAdventureTesting {
         Jimmy.setRandom((x)->{return 0.48;});
         run.runCombat(Jimmy);
 
-        assertEquals("Boring Adventurer", Jimmy.getName());
+        assertEquals("Boring model.Adventurer", Jimmy.getName());
         assertEquals(12, Jimmy.getMaxHealth());
         assertEquals(10, Jimmy.getHealth());
         assertEquals(6, Jimmy.getExperience());
@@ -140,7 +144,7 @@ public class runAdventureTesting {
         Jimmy.setRandom((x)->{return 0.19;});
         run.runCombat(Jimmy);
 
-        assertEquals("Boring Adventurer", Jimmy.getName());
+        assertEquals("Boring model.Adventurer", Jimmy.getName());
         assertEquals(12, Jimmy.getMaxHealth());
         assertEquals(10, Jimmy.getHealth());
         assertEquals(15, Jimmy.getExperience());

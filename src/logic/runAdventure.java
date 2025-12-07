@@ -1,3 +1,8 @@
+package logic;
+
+import model.Adventurer;
+import model.Item;
+
 import java.util.Scanner;
 
 public class runAdventure {
@@ -166,7 +171,7 @@ public class runAdventure {
 
     public void characterDeath(Adventurer littleJimmy){
         System.out.print(littleJimmy.getScore());
-        System.out.print("\n\nChoose a new Adventurer Name!\n");
+        System.out.print("\n\nChoose a new model.Adventurer Name!\n");
         littleJimmy.resetCharacter();
         littleJimmy.setName(scnr.nextLine());
     }

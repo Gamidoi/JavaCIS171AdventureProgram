@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.function.Function;
 
@@ -12,8 +14,8 @@ public class Adventurer{
     private Function random;
 
 
-    Adventurer(){
-        name = "Boring Adventurer";
+    public Adventurer(){
+        name = "Boring model.Adventurer";
         gold = 10.0;
         equipment.add(new Item("Stick", 0, 0));
         health = maxHealth = 10;
@@ -21,7 +23,7 @@ public class Adventurer{
         score = -13;
         random = (x)->{return Math.random();};
     }
-    Adventurer(String givenName, double startingGold){
+    public Adventurer(String givenName, double startingGold){
         name = givenName;
         gold = startingGold;
         equipment.add(new Item("Stick", 0, 0));
@@ -31,7 +33,7 @@ public class Adventurer{
         random = (x)->{return Math.random();};
     }
     public void resetCharacter(){
-        name = "Boring Adventurer";
+        name = "Boring model.Adventurer";
         gold = 10.0;
         equipment.clear();
         equipment.add(new Item("Stick", 0, 0));
