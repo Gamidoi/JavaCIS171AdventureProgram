@@ -181,6 +181,13 @@ public class MenuPanel extends JPanel {
         healButton.setContentAreaFilled(false);
         quitButton.setContentAreaFilled(false);
 
+        fightButton.setFocusable(false);
+        tavernButton.setFocusable(false);
+        shopButton.setFocusable(false);
+        sellButton.setFocusable(false);
+        healButton.setFocusable(false);
+        quitButton.setFocusable(false);
+
         submitButton.setVisible(true);
         userInputField.setVisible(true);
         fightButton.setVisible(false);
